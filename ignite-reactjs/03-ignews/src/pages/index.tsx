@@ -25,20 +25,19 @@ export default function Home({ product }: HomeProps) {
 
           <p>
             Get access to all the publications <br />
-            <span>for {product.amount} month</span>
+            <span>for {product?.amount} month</span>
           </p>
 
-          <SubscribeButton priceId={product.priceId} />
+          <SubscribeButton priceId={product?.priceId} />
         </section>
-        <img src="imagesavvatar.svg" alt="Girl coding" />
+        <img src="/images/avatar.svg" alt="Girl coding" />
       </main>
     </>
   )
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const price = await stripe.prices.retrieve('price_');
-
+  const price = await stripe.prices.retrieve('price_1ItzKuE5J1bYCwl4earqzwB6');
   const product = {
     priceId: price.id, amount: new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -47,7 +46,7 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 
   return {
-    props: product,
+    props: { product },
     revalidate: 60 * 60 * 24, //24 hours
   }
 }
