@@ -1,0 +1,55 @@
+// TODO
+.main {
+  img {
+    width: calc(100vw - 17px);
+    height: 400px;
+  }
+
+  > div {
+    margin: 80px auto;
+    max-width: 700px;
+
+    h1 {
+      margin-bottom: 25px;
+    }
+  }
+}
+
+.postinfo {
+  display: flex;
+  flex-direction: row;
+
+  div {
+    display: flex;
+    align-items: center;
+    color: var(--info);
+
+    svg {
+      margin-right: 8px;
+    }
+
+    span {
+      font-size: 14px;
+    }
+
+    & ~ div {
+      margin-left: 25px;
+    }
+  }
+}
+
+.content {
+  margin-top: 65px;
+
+  h2 {
+    margin-bottom: 60px;
+  }
+
+  p {
+    margin-bottom: 30px;
+  }
+
+  strong {
+    color: var(--highlight);
+  }
+}
