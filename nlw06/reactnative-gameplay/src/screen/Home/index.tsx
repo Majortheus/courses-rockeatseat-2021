@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 
+import { Background } from '../../components/Background';
 import { Profile } from '../../components/Profile';
 import { ButtonAdd } from '../../components/ButtonAdd';
 import { CategorySelect } from '../../components/CategorySelect';
@@ -47,13 +48,13 @@ export function Home() {
   }
 
   return (
-    <View>
+    <Background>
       <View style={styles.header}>
         <Profile />
         <ButtonAdd />
       </View>
 
-      <CategorySelect categorySelected={category} setCategory={handleCategorySelect} />
+      <CategorySelect categorySelected={category} setCategory={handleCategorySelect} hasCheckbox={false}/>
 
       <View style={styles.content}>
         <ListHeader title="Partidas agendadas" subtitle="Total 6" />
@@ -67,6 +68,6 @@ export function Home() {
           showsVerticalScrollIndicator={false}
         />
       </View>
-    </View>
+    </Background>
   )
 }
