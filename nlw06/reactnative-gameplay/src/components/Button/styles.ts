@@ -15,18 +15,6 @@ export const styles = StyleSheet.create({
     color: theme.colors.heading,
     fontFamily: theme.fonts.text500,
     fontSize: 15,
-    textAlign: 'center',
+    textAlign: 'center'
   },
-  iconWrapper: {
-    width: 56,
-    height: 56,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRightWidth: 1,
-    borderColor: theme.colors.line
-  },
-  icon: {
-    width: 24,
-    height: 18,
-  }
 });

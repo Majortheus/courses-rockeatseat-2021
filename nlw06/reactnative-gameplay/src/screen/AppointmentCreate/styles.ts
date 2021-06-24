@@ -38,9 +38,28 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
   },
   field: {
-    width: '100%%',
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 30
+    marginTop: 30,
+  },
+  column: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  divider: {
+    marginRight: 4,
+    fontSize: 15,
+    fontFamily: theme.fonts.text500,
+    color: theme.colors.highlight
+  },
+  caractersLimit: {
+    fontFamily: theme.fonts.text400,
+    fontSize: 13,
+    color: theme.colors.highlight
+  },
+  footer: {
+    marginTop: 20,
+    marginBottom: 56,
   }
 })
