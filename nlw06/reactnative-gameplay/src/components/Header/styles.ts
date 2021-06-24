@@ -9,7 +9,8 @@ export const styles = StyleSheet.create({
     paddingTop: getStatusBarHeight(),
     paddingHorizontal: 24,
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
     flex: 1,
