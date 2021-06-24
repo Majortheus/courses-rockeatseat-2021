@@ -8,6 +8,8 @@ import { Background } from '../../components/Background'
 import { Header } from '../../components/Header';
 import { ListHeader } from '../../components/ListHeader'
 import { Member } from '../../components/Member'
+import { ListDivider } from '../../components/ListDivider'
+import { ButtonIcon } from '../../components/ButtonIcon'
 
 import { theme } from '../../global/styles/theme';
 import { styles } from './styles';
@@ -17,7 +19,7 @@ export function AppointmentDetails() {
   const members = [
     {
       id: '1',
-      username: 'Rodrigo',
+      username: 'Matheus',
       avatar_url: 'https://github.com/majortheus.png',
       status: 'online'
     },
@@ -61,8 +63,13 @@ export function AppointmentDetails() {
         data={members}
         keyExtractor={item => item.id}
         renderItem={({item}) => (<Member data={item}/>)}
-        
+        ItemSeparatorComponent={() => <ListDivider />}
+        style={styles.members}
       />
+
+      <View style={styles.footer}>
+        <ButtonIcon title="Entrar no partida" />
+      </View>
     </Background>
   )
 }
