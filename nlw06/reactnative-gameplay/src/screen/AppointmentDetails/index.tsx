@@ -54,15 +54,15 @@ export function AppointmentDetails() {
         </View>
       </ImageBackground>
 
-      <ListHeader 
+      <ListHeader
         title="Jogadores"
         subtitle="Total 3"
       />
 
-      <FlatList 
+      <FlatList
         data={members}
         keyExtractor={item => item.id}
-        renderItem={({item}) => (<Member data={item}/>)}
+        renderItem={({ item }) => (<Member data={item} />)}
         ItemSeparatorComponent={() => <ListDivider />}
         style={styles.members}
       />

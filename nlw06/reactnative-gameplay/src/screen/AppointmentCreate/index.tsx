@@ -27,6 +27,10 @@ export function AppointmentCreate() {
     setGuildsModal(true);
   }
 
+  function handleCloseGuilds() {
+    setGuildsModal(false);
+  }
+
   function handleGuildSelect(guildSelect: GuildProps) {
     setGuild(guildSelect);
     setGuildsModal(false);
@@ -52,7 +56,7 @@ export function AppointmentCreate() {
           <View style={styles.form}>
             <RectButton onPress={handleOpenGuilds}>
               <View style={styles.select}>
-                { guild.icon ? <GuildIcon /> : <View style={styles.image} /> }
+                {guild.icon ? <GuildIcon /> : <View style={styles.imnage} />}
 
                 <View style={styles.selectBody}>
                   <Text style={styles.label}>
@@ -70,7 +74,7 @@ export function AppointmentCreate() {
 
             <View style={styles.field}>
               <View>
-                <Text style={styles.label}>
+                <Text style={[styles.label, { marginBottom: 12 }]}>
                   Dia e mês
                 </Text>
 
@@ -83,7 +87,7 @@ export function AppointmentCreate() {
                 </View>
               </View>
               <View>
-                <Text style={styles.label}>
+                <Text style={[styles.label, { marginBottom: 12 }]}>
                   Hora e minuto
                 </Text>
 
@@ -120,7 +124,7 @@ export function AppointmentCreate() {
         </ScrollView>
       </Background>
 
-      <ModalView visible={guildsModal}>
+      <ModalView visible={guildsModal} closeModal={handleCloseGuilds}>
         <Guilds handleGuildSelect={handleGuildSelect} />
       </ModalView>
     </KeyboardAvoidingView>
