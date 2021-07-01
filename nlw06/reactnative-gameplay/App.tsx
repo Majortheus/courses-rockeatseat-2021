@@ -7,7 +7,7 @@ import AppLoading from 'expo-app-loading';
 
 import { Routes } from './src/routes';
 import { Background } from './src/components/Background';
-import { AuthContext } from './src/context/auth';
+import { AuthProvider } from './src/hooks/auth';
 
 export default function App() {
   const [fontLoaded] = useFonts({
@@ -24,9 +24,9 @@ export default function App() {
   return (
     <Background>
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-      <AuthContext.Provider value={{name: 'Matheus', email: 'majortheus@gmail.com', avatar: 'elmajor.png'}}>
+      <AuthProvider>
         <Routes />
-      </AuthContext.Provider>
+      </AuthProvider>
     </Background>
   );
 }
