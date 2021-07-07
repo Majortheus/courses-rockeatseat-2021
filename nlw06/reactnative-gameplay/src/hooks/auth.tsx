@@ -1,9 +1,17 @@
 import React, { ReactNode, createContext, useContext, useState } from 'react';
 
 import * as AuthSession from 'expo-auth-session';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { discord } from '../config'
+const { REDIRECT_URI } = process.env;
+const { SCOPE } = process.env;
+const { RESPONSE_TYPE } = process.env;
+const { CLIENT_ID } = process.env;
+const { CDN_IMAGE } = process.env;
+
 import { api } from '../services/api';
+import { COLLECTION_USERS } from '../config/database';
+import { useEffect } from 'react';
 
 type User = {
   id: string;
@@ -28,7 +36,8 @@ type AuthProviderProps = {
 
 type AuththorizationResponse = AuthSession.AuthSessionResult & {
   params: {
-    access_token: string;
+    access_token?: string;
+    error?: string;
   }
 }
 
@@ -36,22 +45,41 @@ function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User>({} as User);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    loadUserFromLocalDatabase();
+  }, []);
+
+  async function loadUserFromLocalDatabase(){
+    const storage = await AsyncStorage.getItem(COLLECTION_USERS);
+
+    if(storage){
+      const userLogged = JSON.parse(storage) as User;
+
+      api.defaults.headers.authorization = `Bearer ${userLogged.token}`;
+      setUser(userLogged);
+    }
+  }
+
   async function signIn() {
     try {
       setLoading(true);
 
-      const authUrl = `${api.defaults.baseURL}/oauth2/authorize?client_id=${discord.CLIENT_ID}&redirect_uri=${discord.REDIRECT_URI}&response_type=${discord.RESPONSE_TYPE}&scope=${discord.SCOPE}`
+      const authUrl = `${api.defaults.baseURL}/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`
 
       const { type, params } = await AuthSession.startAsync({ authUrl }) as AuththorizationResponse;
 
-      if (type === 'success') {
+      if (type === 'success' && !params.error) {
         api.defaults.headers.authorization = `Bearer ${params.access_token}`;
 
         const { data: userInfo } = await api.get('/users/@me');
         const firstName = userInfo.username.split(' ')[0];
-        userInfo.avatar = `${discord.CDN_IMAGE}/avatars/${userInfo.id}/${userInfo.avatar}.png`;
+        userInfo.avatar = `${CDN_IMAGE}/avatars/${userInfo.id}/${userInfo.avatar}.png`;
 
-        setUser({ ...userInfo, firstName, token: params.access_token });
+        const userData = { ...userInfo, firstName, token: params.access_token };
+
+        await AsyncStorage.setItem(COLLECTION_USERS, JSON.stringify(userData));
+
+        setUser(userData);
       }
 
     } catch (err) {
