@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { COLLECTION_APPOINTMENTS } from '../../config/database';
 
 import { Background } from '../../components/Background';
 import { Profile } from '../../components/Profile';
 import { ButtonAdd } from '../../components/ButtonAdd';
 import { CategorySelect } from '../../components/CategorySelect';
 import { ListHeader } from '../../components/ListHeader';
-import { Appointment } from '../../components/Appointment';
+import { Appointment, AppointmentProps } from '../../components/Appointment';
 import { ListDivider } from '../../components/ListDivider';
 
 import { styles } from './styles';
@@ -15,36 +17,9 @@ import { useNavigation } from '@react-navigation/native';
 
 export function Home() {
   const [category, setCategory] = useState('');
+  const [appointments, setAppointments] = useState<AppointmentProps[]>([]);
 
   const navigation = useNavigation();
-
-  const appointments =
-    [
-      {
-        id: '1',
-        guild: {
-          id: '1',
-          name: 'Lendários',
-          icon: null,
-          owner: true
-        },
-        category: '1',
-        date: '22/06 ás 20:40h',
-        description: 'é hoje que vamos chegar ao challenger sem perder uma partida da md10'
-      },
-      {
-        id: '2',
-        guild: {
-          id: '1',
-          name: 'Lendários',
-          icon: null,
-          owner: true
-        },
-        category: '1',
-        date: '22/06 ás 20:40h',
-        description: 'é hoje que vamos chegar ao challenger sem perder uma partida da md10'
-      }
-    ]
 
   function handleCategorySelect(categoryId: string) {
     categoryId !== category ? setCategory(categoryId) : setCategory('');
@@ -56,6 +31,17 @@ export function Home() {
 
   function handleAppointmentCreate() {
     navigation.navigate('AppointmentCreate')
+  }
+
+  async function loadAppointments(){
+    const storage = await AsyncStorage.getItem(COLLECTION_APPOINTMENTS);
+    const appointments: AppointmentProps[] = storage ? JSON.parse(storage) : [];
+
+    if(category){
+      setAppointments(appointments.filter(item => item.category === category));
+    } else {
+      setAppointments(appointments);
+    }
   }
 
   return (
