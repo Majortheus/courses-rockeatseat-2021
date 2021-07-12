@@ -10,7 +10,7 @@ const { CLIENT_ID } = process.env;
 const { CDN_IMAGE } = process.env;
 
 import { api } from '../services/api';
-import { COLLECTION_USERS } from '../config/database';
+import { COLLECTION_APPOINTMENTS, COLLECTION_USERS } from '../config/database';
 import { useEffect } from 'react';
 
 type User = {
@@ -25,6 +25,7 @@ type User = {
 type AuthContextData = {
   user: User;
   signIn: () => Promise<void>;
+  signOut: () => Promise<void>;
   isLoading: boolean;
 }
 
@@ -49,10 +50,10 @@ function AuthProvider({ children }: AuthProviderProps) {
     loadUserFromLocalDatabase();
   }, []);
 
-  async function loadUserFromLocalDatabase(){
+  async function loadUserFromLocalDatabase() {
     const storage = await AsyncStorage.getItem(COLLECTION_USERS);
 
-    if(storage){
+    if (storage) {
       const userLogged = JSON.parse(storage) as User;
 
       api.defaults.headers.authorization = `Bearer ${userLogged.token}`;
@@ -90,8 +91,13 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  async function signOut() {
+    await AsyncStorage.multiRemove([COLLECTION_USERS, COLLECTION_APPOINTMENTS]);
+    setUser({} as User);
+  }
+
   return (
-    <AuthContext.Provider value={{ user, signIn, isLoading: loading }}>
+    <AuthContext.Provider value={{ user, signIn, signOut, isLoading: loading }}>
       {children}
     </AuthContext.Provider>
   )
