@@ -1,0 +1,76 @@
+.container {
+  margin: 0 auto;
+  max-width: 700px;
+
+  footer {
+    margin-top: 64px;
+
+    button {
+      font-weight: 600;
+      color: var(--highlight);
+      background: transparent;
+      border: none;
+    }
+  }
+
+  aside {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 88px;
+    height: 58px;
+    background-color: var(--heading);
+
+    a {
+      color: var(--background);
+      font-weight: 600;
+      text-decoration: none;
+    }
+  }
+}
+
+.post {
+  max-width: 700px;
+  cursor: pointer;
+
+  h1 {
+    margin-bottom: 8px;
+  }
+
+  &:hover > h1 {
+    color: var(--highlight);
+  }
+
+  p {
+    margin-bottom: 24px;
+  }
+
+  & ~ .post {
+    margin-top: 45px;
+  }
+}
+
+.postinfo {
+  display: flex;
+  flex-direction: row;
+
+  div {
+    display: flex;
+    align-items: center;
+    color: var(--info);
+
+    svg {
+      margin-right: 8px;
+    }
+
+    span {
+      font-size: 14px;
+    }
+
+    & ~ div {
+      margin-left: 25px;
+    }
+  }
+}
